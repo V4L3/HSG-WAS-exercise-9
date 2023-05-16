@@ -82,7 +82,10 @@ robot_td("https://raw.githubusercontent.com/Interactions-HSG/example-tds/main/td
 */
 @select_reading_task_0_plan
 +!select_reading(TempReadings, Celcius) : true <-
-    .nth(0, TempReadings, Celcius).
+	.findall([Agent,Trust],interaction_trust(_,Agent,_,Trust),TrustRatings);
+	calculateTrustAverage(TrustRatings, MostTrustedAgent)[artifact_id(TrustCalculatorId)];
+	.print("sensing_agent_",MostTrustedAgent," is the most trusted agent");
+	Celcius = MostTrustedAgent.
 
 /* 
  * Plan for reacting to the addition of the goal !manifest_temperature
