@@ -34,6 +34,7 @@ mas lab {
     // acting agent
     agent acting_agent : acting_agent.asl {
       focus: converter
+      focus: trustCalculator
     }
 
     // certification agent
@@ -42,5 +43,6 @@ mas lab {
     workspace lab {
         artifact weatherStation: tools.WeatherStation
         artifact converter: tools.Converter
+        artifact trustCalculator: tools.TrustCalculator
     }
 }

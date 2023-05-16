@@ -24,6 +24,11 @@ i_have_plans_for(R) :- not (role_goal(R,G) & not has_plan_for(G)).
 +!start : true <-
 	.print("Hello world").
 
++send_reference[source(Requester)] : true <-
+	.print("sending CertifiedReputation");
+	?received_reputation(CertifiedReputation);
+	.send(Requester, tell, CertifiedReputation).
+
 /* 
  * Plan for reacting to the addition of the goal !read_temperature
  * Triggering event: addition of goal !read_temperature
@@ -35,6 +40,18 @@ i_have_plans_for(R) :- not (role_goal(R,G) & not has_plan_for(G)).
 	.print("Reading the temperature");
 	readCurrentTemperature(47.42, 9.37, Celcius); // reads the current temperature using the artifact
 	.print("Read temperature (Celcius): ", Celcius);
+
+	.my_name(Name);
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_1, temperature(10), 0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_2, temperature(10), 0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_3, temperature(10), 0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_4, temperature(10), 0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_5, temperature(-2), -0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_6, temperature(-2), -0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_7, temperature(-2), -0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_8, temperature(-2), -0.05));
+	.send(acting_agent, tell, witness_reputation(Name, sensing_agent_9, temperature(-2), -0.05));
+
 	.broadcast(tell, temperature(Celcius)). // broadcasts the temperature reading
 
 /* 
@@ -83,7 +100,8 @@ i_have_plans_for(R) :- not (role_goal(R,G) & not has_plan_for(G)).
  * Body: prints new certified reputation rating (relevant from Task 3 and on)
 */
 +certified_reputation(CertificationAgent, SourceAgent, MessageContent, CRRating): true <-
-	.print("Certified Reputation Rating: (", CertificationAgent, ", ", SourceAgent, ", ", MessageContent, ", ", CRRating, ")").
+	.print("Certified Reputation Rating: (", CertificationAgent, ", ", SourceAgent, ", ", MessageContent, ", ", CRRating, ")");
+	-+received_reputation(certified_reputation(CertificationAgent, SourceAgent, MessageContent, CRRating)).
 
 /* Import behavior of agents that work in CArtAgO environments */
 { include("$jacamoJar/templates/common-cartago.asl") }

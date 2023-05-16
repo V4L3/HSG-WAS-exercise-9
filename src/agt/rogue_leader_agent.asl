@@ -22,6 +22,16 @@
     <-
       .print("Reading the temperature");
       .print("Read temperature (Celcious): ", -2);
+      .my_name(Name);
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_1, temperature(10), -0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_2, temperature(10), -0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_3, temperature(10), -0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_4, temperature(10), -0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_5, temperature(-2), 0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_6, temperature(-2), 0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_7, temperature(-2), 0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_8, temperature(-2), 0.05));
+      .send(acting_agent, tell, witness_reputation(Name, sensing_agent_9, temperature(-2), 0.05));
       .broadcast(tell, temperature(-2))}).
 
 /* Import behavior of sensing agent */

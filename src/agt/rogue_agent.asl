@@ -24,6 +24,16 @@ received_readings([]).
   // Prioritize Rouge leader
   .add_plan({ +!read_temperature : received_readings(TempReadings) &
     temperature(TempReading)[source(Agent)] & Agent == sensing_agent_9 <-
+    .my_name(Name);
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_1, temperature(10), -0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_2, temperature(10), -0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_3, temperature(10), -0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_4, temperature(10), -0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_5, temperature(-2), 0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_6, temperature(-2), 0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_7, temperature(-2), 0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_8, temperature(-2), 0.05));
+    .send(acting_agent, tell, witness_reputation(Name, sensing_agent_9, temperature(-2), 0.05));
     .print("Broadcasting Roug leader temp");
     .broadcast(tell, temperature(TempReading))});
 

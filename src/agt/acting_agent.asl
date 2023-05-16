@@ -82,11 +82,22 @@ robot_td("https://raw.githubusercontent.com/Interactions-HSG/example-tds/main/td
 */
 @select_reading_task_0_plan
 +!select_reading(TempReadings, Celcius) : true <-
+	!ask_for_references;
+	.wait(1000);
 	.findall([Agent,Trust],interaction_trust(_,Agent,_,Trust),TrustRatings);
-	calculateTrustAverage(TrustRatings, MostTrustedAgent)[artifact_id(TrustCalculatorId)];
+	.findall([Agent,CReputation],certified_reputation(_,Agent,_,CReputation), CertifiedReputations);
+	// .print(CertifiedReputations);
+	.findall([Agent,WReputation],witness_reputation(_,Agent,_,WReputation), WitnessReputations);
+	// .print(WitnessReputations);
+	calculateMostTrustworthyAgent(TrustRatings, CertifiedReputations, WitnessReputations, MostTrustedAgent)[artifact_id(TrustCalculatorId)];
 	.print("sensing_agent_",MostTrustedAgent," is the most trusted agent");
-	Celcius = MostTrustedAgent.
+	Pos = MostTrustedAgent - 1;
+	.nth(Pos, TempReadings, Celcius).
 
+
++!ask_for_references : true <-
+	.print("Asking for references");
+	.broadcast(tell, send_reference).
 /* 
  * Plan for reacting to the addition of the goal !manifest_temperature
  * Triggering event: addition of goal !manifest_temperature
