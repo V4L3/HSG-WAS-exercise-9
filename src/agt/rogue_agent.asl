@@ -20,6 +20,12 @@ received_readings([]).
   .remove_plan(LL);
   .relevant_plans({ -!read_temperature }, _, LL2);
   .remove_plan(LL2);
+  
+  // Prioritize Rouge leader
+  .add_plan({ +!read_temperature : received_readings(TempReadings) &
+    temperature(TempReading)[source(Agent)] & Agent == sensing_agent_9 <-
+    .print("Broadcasting Roug leader temp");
+    .broadcast(tell, temperature(TempReading))});
 
   // adds a new plan for reading the temperature that doesn't require contacting the weather station
   // the agent will pick one of the first three temperature readings that have been broadcasted,
